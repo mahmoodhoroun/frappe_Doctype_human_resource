@@ -17,6 +17,7 @@
   "employee_number",
   "date_of_birth",
   "date_of_joining",
+  "age",
   "mobile",
   "section_break_12",
   "department",
@@ -94,11 +95,17 @@
   {
    "fieldname": "section_break_12",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "age",
+   "fieldtype": "Data",
+   "label": "age",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-14 16:58:07.468708",
+ "modified": "2023-01-21 13:58:57.950470",
  "modified_by": "Administrator",
  "module": "Human Resource",
  "name": "Employee",
