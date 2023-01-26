@@ -5,7 +5,7 @@ app_title = "Human Resource"
 app_publisher = "mahmood"
 app_description = "Human Resource"
 app_icon = "octicon octicon-file-directory"
-app_color = "grey"
+app_color = "gray"
 app_email = "mahmood@gmail.com"
 app_license = "MIT"
 
