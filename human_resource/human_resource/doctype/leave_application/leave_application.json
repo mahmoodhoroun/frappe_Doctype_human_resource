@@ -60,7 +60,8 @@
   {
    "fieldname": "leave_balance_before_application",
    "fieldtype": "Float",
-   "label": "Leave Balance Before Application"
+   "label": "Leave Balance Before Application",
+   "read_only": 1
   },
   {
    "fieldname": "from_date",
@@ -117,7 +118,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-01-26 20:44:44.825259",
+ "modified": "2023-01-27 09:51:37.904884",
  "modified_by": "Administrator",
  "module": "Human Resource",
  "name": "Leave Application",
