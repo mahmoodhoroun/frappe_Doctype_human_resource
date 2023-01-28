@@ -14,7 +14,6 @@ class LeaveApplication(Document):
 		self.set_total_leave_days()
 		self.get_total_leave_allocation()
 		self.check_balance_leave()
-		# self.update_leave_balance_after_cancel()
 		self.check_max_continuous_days()
 		self.check_applicable_after()
 			
@@ -64,6 +63,14 @@ class LeaveApplication(Document):
 	def update_leave_balance_after_submit(self):
 		new_balance_allocat = float(self.leave_balance_before_application)-float(self.total_leave_days)
 		if self.employee and self.from_date and self.to_date and self.leave_type:
+			# leaveall = frappe.get_doc("Leave Allocation", {
+			# 	"employee": self.employee,
+			# 	"leave_type": self.leave_type,
+			# 	"from_date": ["<=", self.from_date],
+			# 	"to_date": [">=", self.to_date],
+			# })
+			# if leaveall:
+			# 	leaveall.db_set("total_leaves_allocated", new_balance_allocat)
 			frappe.db.sql(""" UPDATE `tableave Allocation` SET total_leaves_allocated = %s WHERE  employee = %s and leave_type = %s and from_date <= %s and to_date >= %s""", (new_balance_allocat, self.employee, self.leave_type, self.from_date, self.to_date))
 			
 
@@ -100,3 +107,20 @@ class LeaveApplication(Document):
 		# print(max_applicable_after_days)
 		if float(applicable_after_days) > float(max_applicable_after_days[0].applicable_after):
 			throw(f"You should reservation before Applicable After Days thats {max_applicable_after_days[0].applicable_after} days")
+
+@frappe.whitelist()
+def get_total_leaves(employee, leave_type, from_date, to_date):
+	if employee and leave_type and from_date and to_date :
+		total_allocated = frappe.db.sql(""" select total_leaves_allocated from `tableave Allocation` where employee = %s and leave_type = %s and from_date <= %s and to_date >= %s""", (employee, leave_type, from_date, to_date), as_dict=1)
+
+		if total_allocated:
+			return str(total_allocated[0].total_leaves_allocated)
+		else:
+			return 0
+
+
+			
+@frappe.whitelist()
+def get_total_days(from_date, to_date):
+	if from_date and to_date:
+		return date_diff(to_date, from_date) +1 
