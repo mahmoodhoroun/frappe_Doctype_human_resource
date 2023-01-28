@@ -11,12 +11,20 @@ from datetime import datetime,date
 class LeaveApplication(Document):
 	
 	def validate(self):
+<<<<<<< HEAD
 		leave_type = frappe.get_doc("Leave Type", self.leave_type)
 		self.set_total_leave_days()
 		self.get_total_leave_allocation()
 		self.check_balance_leave()
 		self.check_max_continuous_days(leave_type)
 		self.check_applicable_after(leave_type)
+=======
+		self.set_total_leave_days()
+		self.get_total_leave_allocation()
+		self.check_balance_leave()
+		self.check_max_continuous_days()
+		self.check_applicable_after()
+>>>>>>> bb74f23c3e1ec461c50e6b117fb09ba68054d6d1
 			
 	def on_submit(self):
 		self.update_leave_balance_after_submit()
@@ -87,6 +95,7 @@ class LeaveApplication(Document):
 			
 			if self.employee and self.from_date and self.to_date and self.leave_type:
 				frappe.db.sql(""" UPDATE `tableave Allocation` SET total_leaves_allocated = %s WHERE  employee = %s and leave_type = %s and from_date <= %s and to_date >= %s""", (new_leave_balance, self.employee, self.leave_type, self.from_date, self.to_date))
+<<<<<<< HEAD
 				frappe.db.commit()
 
 	def check_max_continuous_days(self, leave_type):
@@ -106,6 +115,29 @@ class LeaveApplication(Document):
 		# print(max_applicable_after_days)
 		if float(applicable_after_days) < float(leave_type.applicable_after):
 			throw(f"You should reservation before Applicable After Days thats {leave_type.applicable_after} days")
+=======
+				frappe.db.commit
+
+	def check_max_continuous_days(self):
+		# today = date.today()
+		continuous_days = date_diff(self.to_date, self.from_date)
+		max_continuous_days = frappe.db.sql(""" select max_continuous_days_allowed from `tabLeave Type` where leave_type_name = %s""",(self.leave_type), as_dict=1)
+		# print("*" * 100)
+		# print(continuous_days)
+		# print(max_continuous_days)
+		if  float(continuous_days) > float(max_continuous_days[0].max_continuous_days_allowed):
+			throw(f"You can not reservation leave over Max Continuous Days Allowed thats {max_continuous_days[0].max_continuous_days_allowed}")
+
+
+	def check_applicable_after(self):
+		today = date.today()
+		applicable_after_days = date_diff(today, self.from_date)
+		max_applicable_after_days = frappe.db.sql(""" select applicable_after from `tabLeave Type` where leave_type_name = %s""",(self.leave_type), as_dict=1)
+		# print("*" * 100)
+		# print(max_applicable_after_days)
+		if float(applicable_after_days) > float(max_applicable_after_days[0].applicable_after):
+			throw(f"You should reservation before Applicable After Days thats {max_applicable_after_days[0].applicable_after} days")
+>>>>>>> bb74f23c3e1ec461c50e6b117fb09ba68054d6d1
 
 @frappe.whitelist()
 def get_total_leaves(employee, leave_type, from_date, to_date):

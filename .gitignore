@@ -5,4 +5,8 @@
 tags
 human_resource/docs/current
 /__pycache__/
+<<<<<<< HEAD
 **/__pycache__/
+=======
+**/__pycache__/
+>>>>>>> bb74f23c3e1ec461c50e6b117fb09ba68054d6d1
