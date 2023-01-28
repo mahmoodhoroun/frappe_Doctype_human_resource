@@ -9,7 +9,8 @@
  "field_order": [
   "leave_type_name",
   "max_continuous_days_allowed",
-  "applicable_after"
+  "applicable_after",
+  "allow_negative_balance"
  ],
  "fields": [
   {
@@ -27,11 +28,17 @@
    "fieldname": "applicable_after",
    "fieldtype": "Data",
    "label": "Applicable After"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_negative_balance",
+   "fieldtype": "Check",
+   "label": "Allow Negative Balance"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-27 17:43:07.815222",
+ "modified": "2023-01-27 22:21:43.258220",
  "modified_by": "Administrator",
  "module": "Human Resource",
  "name": "Leave Type",

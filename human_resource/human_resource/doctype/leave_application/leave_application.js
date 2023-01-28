@@ -5,12 +5,63 @@ frappe.ui.form.on('Leave Application', {
 	// refresh: function(frm) {
 
 	// }
-	// validate: function(frm) {
-    //     if (frm.doc.from_date < frm.doc.to_date) {
-	// 		console.log(frm.doc.from_date.day);
-	// 		console.log("000")
+	employee: function(frm){
+		frm.trigger('get_total_leaves');
+	},
+	leave_type: function(frm){
+		frm.trigger('get_total_leaves');
+	},
+	from_date: function(frm){
+		frm.trigger('get_total_leaves');
+		frm.trigger('get_total_days');
 
-    //         frappe.throw("Please select a From Date from the present or future.");
-    //     }
-	// }
+	},
+	to_date: function(frm){
+		frm.trigger('get_total_leaves');
+		frm.trigger('get_total_days');
+
+	},
+
+	get_total_leaves: function(frm){
+		if(!frm.doc.employee | !frm.doc.leave_type | !frm.doc.from_date | !frm.doc.to_date ){
+			return;
+		}
+			console.log("00000")
+			frappe.call({
+				method:"human_resource.human_resource.doctype.leave_application.leave_application.get_total_leaves",
+				args:{
+					employee:frm.doc.employee,
+					leave_type: frm.doc.leave_type,
+					from_date:frm.doc.from_date,
+					to_date:frm.doc.to_date
+				},
+				callback: (r)=>{
+					frm.doc.leave_balance_before_application = r.message
+					frm.refresh()
+					// console.log(r.message)
+				}
+				
+			})
+		
+	},
+	get_total_days: function(frm){
+		if(!frm.doc.from_date | !frm.doc.to_date){
+			return;
+		}
+		frappe.call({
+			method:"human_resource.human_resource.doctype.leave_application.leave_application.get_total_days",
+			args:{
+				from_date:frm.doc.from_date,
+				to_date:frm.doc.to_date	
+			},
+			callback: (r)=>{
+				frm.doc.total_leave_days = r.message
+				frm.refresh()
+				// console.log(r.message)
+			}
+
+		})
+
+	}
+	
 });

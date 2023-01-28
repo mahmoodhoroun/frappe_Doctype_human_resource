@@ -14,28 +14,29 @@ frappe.ui.form.on("Employee", "validate", function(frm) {
     }
 });
 
-frappe.ui.form.on("Employee", "validate", function(frm) {
-        if (frm.doc.status === "Active") {
-            frappe.throw("Cannot save employee with active status ");
-        }
-    });
+// frappe.ui.form.on("Employee", "validate", function(frm) {
+//         if (frm.doc.status === "Active" & frm.doc.age > 60) {
+//             frappe.throw("Cannot save employee with active status your age larger than 60 ");
+//         }
+//     });
 
 
 
 frappe.ui.form.on('Employee',{
     validate: function(frm) {
-    var total_education = 0;
-    $.each(frm.doc.employee_education,  function(i,  d) {
-    if ( d.schooluniversity){
-    total_education += 1; }
-    }); 
+        const total_education = (frm.doc.employee_education || []).length ;
+
+    // var total_education = 0;
+    // $.each(frm.doc.employee_education,  function(i,  d) {
+    // if ( d.schooluniversity){
+    // total_education += 1; }
+    // }); 
     if (total_education < 2 ){
         frappe.throw( "Employee Education must be have at least Two Education")
       } else{
         frm.doc.count_educations = total_education; 
 
       }
-   
    }
     });
    
