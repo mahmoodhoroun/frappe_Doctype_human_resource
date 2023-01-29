@@ -22,8 +22,6 @@ class leaveAllocation(Document):
 		for x in leave_allocations_for_same_employee:
 				if x.from_date <= new_from_date <= x.to_date and x.from_date <= new_to_date <= x.to_date and self.employee == x.employee and self.leave_type == x.leave_type:
 					leave_allocation_in_same_time = False
-					print(leave_allocations_for_same_employee)
-
 		if not leave_allocation_in_same_time:
 			throw("You have anther allocation in same date")
 
