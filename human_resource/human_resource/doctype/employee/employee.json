@@ -21,7 +21,8 @@
   "mobile",
   "section_break_12",
   "department",
-  "employee_education"
+  "employee_education",
+  "user"
  ],
  "fields": [
   {
@@ -101,11 +102,17 @@
    "fieldtype": "Data",
    "label": "age",
    "read_only": 1
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-21 13:58:57.950470",
+ "modified": "2023-02-01 16:03:22.505544",
  "modified_by": "Administrator",
  "module": "Human Resource",
  "name": "Employee",

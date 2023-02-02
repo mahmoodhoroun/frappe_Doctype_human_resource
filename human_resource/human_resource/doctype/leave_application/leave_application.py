@@ -27,21 +27,25 @@ class LeaveApplication(Document):
 	def set_total_leave_days(self):
 		# we have a problem when we make a submit the function in validate run 
 		if self.from_date and self.to_date:
-			# leave_allocation_in_same_time = True
+			# leave_application_in_same_time = True
 			# leave_allocations_for_same_employee = frappe.db.sql(""" select from_date, to_date, employee, leave_type from `tabLeave Application`  where employee = %s and leave_type = %s """, (self.employee, self.leave_type), as_dict=1)
 			# new_from_date = datetime.strptime(self.from_date, '%Y-%m-%d').date()
+			# new_to_date = datetime.strptime(self.to_date, '%Y-%m-%d').date()
 			# for x in leave_allocations_for_same_employee:
-			# 	if x.from_date <= new_from_date <= x.to_date and self.employee == x.employee and self.leave_type == x.leave_type:
-			# 		leave_allocation_in_same_time = False
+			# 	if x.from_date <= new_from_date <= x.to_date and x.from_date <= new_to_date <= x.to_date and self.employee == x.employee and self.leave_type == x.leave_type:
+			# 		leave_application_in_same_time = False
 			# 		print(leave_allocations_for_same_employee)
 			status_of_checkbox = frappe.db.sql(""" select allow_negative_balance from `tabLeave Type` where leave_type_name = %s """, (self.leave_type), as_dict=1)
 			print("*" * 100)
 			print(status_of_checkbox[0].allow_negative_balance)
+			# if leave_application_in_same_time:
 			if self.from_date <= self.to_date or status_of_checkbox[0].allow_negative_balance == 1:
 				# print("*" * 100)
 				self.total_leave_days = date_diff(self.to_date, self.from_date) +1 
 			else:
 				throw("We can put from date after to date")
+			# else:
+			# 	throw("You have a leave application in the same time")
 		else:
 			throw("Enter From Date and To Date")
 
