@@ -11,10 +11,9 @@ from datetime import datetime,date
 class Attendance(Document):
 	
 	def on_submit(self):
-		pass
-	def validate(self):
 		self.get_work_hours()
 		self.update_status_value_in_attendance()
+
 
 	def get_work_hours(self):
 		if self.check_out and self.check_in:
